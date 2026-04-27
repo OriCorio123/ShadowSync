@@ -10,8 +10,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         {children}
-        {/* Load Socket.io globally so children can use it from window if needed */}
-        <script src="/socket.io/socket.io.js" async></script>
+        {/* Load Socket.io from CDN to ensure it works on serverless environments like Vercel */}
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" async></script>
       </body>
     </html>
   );

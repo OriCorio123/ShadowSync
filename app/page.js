@@ -79,8 +79,16 @@ export default function Hub() {
 
   // Initialize Engine
   useEffect(() => {
-    if (!videoRef.current || !window.io) return;
-    const socket = window.io();
+    if (!videoRef.current) return;
+
+    // We no longer return early if window.io is missing. 
+    // Instead, we try to get the socket and proceed regardless.
+    let socket = null;
+    if (typeof window !== 'undefined' && window.io) {
+      socket = window.io();
+    } else {
+      console.warn('[Hub] Socket.io not found or server unreachable. Starting in local-only mode.');
+    }
 
     const skelLoop = () => {
       const skelCanvas = skelCanvasRef.current;
