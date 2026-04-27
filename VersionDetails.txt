@@ -4,3 +4,8 @@
 -Can't reach the fruits that are spawning near the borders (need to set the spawn at the middle with 25% margin from both sides
 -Fruits are too big : the gravity is making the fruits slow(need to set the collision and scale to 100% or 150%)
 -The humanoid can be improved(by adding more particles to form as a human rather than a skeleton)
+
+==================================================
+27 Apr
++added another screen for selecting PC/Phone
++optimizations for phone: 1080p canvas instead o 4k,30FPS tracking instead of 60FPS on PC,Game runs on GPU whereas model runs on CPU

@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ShadowSyncEngine } from '../lib/engine';
 
 export default function Hub() {
-  const [activeScreen, setActiveScreen] = useState('tracking'); // 'tracking', 'calibration', 'continue', 'menu'
+  const [activeScreen, setActiveScreen] = useState('device'); // 'device', 'tracking', 'calibration', 'continue', 'menu'
+  const [deviceSelection, setDeviceSelection] = useState(null); // 'pc' or 'mobile'
   const [activeGameUrl, setActiveGameUrl] = useState(null);
   const [statusText, setStatusText] = useState('Initializing camera...');
   const [isCameraReady, setIsCameraReady] = useState(false);
@@ -142,10 +143,11 @@ export default function Hub() {
       },
       onError(err) {
         setStatusText('Camera unavailable — ' + err);
-      }
+      },
+      deviceType: deviceSelection
     });
 
-  }, []);
+  }, [deviceSelection]);
 
   const isEntireBodyInFrame = () => {
     const lm = ShadowSyncEngine.getRawLandmarks();
@@ -254,6 +256,32 @@ export default function Hub() {
         </defs>
       </svg>
 
+      {/* SCREEN 0: DEVICE SELECTION */}
+      <div className={`screen ${activeScreen === 'device' ? 'active' : ''}`} id="screen-device">
+        <h1 className="hub-title">ShadowSync</h1>
+        <p className="hub-subtitle">Choose your device for optimal performance</p>
+        <div className="game-grid" style={{ marginTop: '40px', maxWidth: '800px', gridTemplateColumns: '1fr 1fr' }}>
+          <button 
+            className="game-card" 
+            style={{ padding: '60px 20px' }}
+            onClick={() => { setDeviceSelection('pc'); setActiveScreen('tracking'); }}
+          >
+            <div className="game-card-icon" style={{ fontSize: '60px', marginBottom: '20px' }}>🖥️</div>
+            <span className="game-card-name" style={{ fontSize: '24px' }}>PC / Laptop</span>
+            <span style={{ color: 'var(--text-dim)', fontSize: '14px', marginTop: '10px' }}>4K Graphics & 60fps Tracking</span>
+          </button>
+          <button 
+            className="game-card" 
+            style={{ padding: '60px 20px' }}
+            onClick={() => { setDeviceSelection('mobile'); setActiveScreen('tracking'); }}
+          >
+            <div className="game-card-icon" style={{ fontSize: '60px', marginBottom: '20px' }}>📱</div>
+            <span className="game-card-name" style={{ fontSize: '24px' }}>Phone / Tablet</span>
+            <span style={{ color: 'var(--text-dim)', fontSize: '14px', marginTop: '10px' }}>Optimized for Battery & RAM</span>
+          </button>
+        </div>
+      </div>
+
       {/* SCREEN 1: TRACKING */}
       <div className={`screen ${activeScreen === 'tracking' ? 'active' : ''}`} id="screen-tracking">
         <h1 className="hub-title">ShadowSync</h1>
@@ -309,7 +337,7 @@ export default function Hub() {
             <p style={{ color: 'var(--text-dim)', gridColumn: '1/-1', textAlign: 'center' }}>No games found</p>
           )}
           {games.map(g => (
-            <button key={g.folder} className="game-card" onClick={() => setActiveGameUrl(g.htmlPath)}>
+            <button key={g.folder} className="game-card" onClick={() => setActiveGameUrl(`${g.htmlPath}?device=${deviceSelection}`)}>
               {g.iconPath ? (
                 <img className="game-card-icon" src={g.iconPath} alt={g.name} />
               ) : (

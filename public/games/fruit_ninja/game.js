@@ -2,14 +2,26 @@
  *  SHADOWSYNC — FRUIT NINJA (Socket-Driven, Dual Blade, Particle Avatar)
  * ==================================================================== */
 
-const GAME_WIDTH = 3840, GAME_HEIGHT = 2160, GRAVITY = 1800;
+const searchParams = new URLSearchParams(window.location.search);
+const isMobile = searchParams.get('device') === 'mobile';
+
+const GAME_WIDTH = isMobile ? 1920 : 3840;
+const GAME_HEIGHT = isMobile ? 1080 : 2160;
+const GRAVITY = isMobile ? 1100 : 1800;
 const SPAWN_INTERVAL_MIN = 1800, SPAWN_INTERVAL_MAX = 3000;
 const SPAWN_COUNT_MIN = 1, SPAWN_COUNT_MAX = 4, BOMB_CHANCE = 0.15, BOMB_SCALE = 0.55;
-const LAUNCH_VY_MIN = -2500, LAUNCH_VY_MAX = -1700, LAUNCH_VX_MIN = -500, LAUNCH_VX_MAX = 500;
+const LAUNCH_VY_MIN = isMobile ? -1400 : -2500;
+const LAUNCH_VY_MAX = isMobile ? -1000 : -1700;
+const LAUNCH_VX_MIN = isMobile ? -300 : -500;
+const LAUNCH_VX_MAX = isMobile ? 300 : 500;
 const ANGULAR_VEL_MIN = -300, ANGULAR_VEL_MAX = 300;
-const BLADE_TRAIL_DURATION = 280, BLADE_MAX_POINTS = 24;
-const BLADE_MIN_WIDTH = 2, BLADE_MAX_WIDTH = 18, MIN_SWIPE_DISTANCE = 36;
-const SWOOSH_VELOCITY_THRESHOLD = 1000, SWOOSH_COOLDOWN = 220;
+const BLADE_TRAIL_DURATION = 280;
+const BLADE_MAX_POINTS = isMobile ? 20 : 24;
+const BLADE_MIN_WIDTH = 2;
+const BLADE_MAX_WIDTH = isMobile ? 12 : 18;
+const MIN_SWIPE_DISTANCE = isMobile ? 20 : 36;
+const SWOOSH_VELOCITY_THRESHOLD = isMobile ? 600 : 1000;
+const SWOOSH_COOLDOWN = 220;
 
 const FRUIT_DATA = {
   apple:      { scale: 0.50, particleTint: 0xff2244, splashKey: 'splash_red' },
@@ -49,8 +61,7 @@ socket.on('trackingData', (data) => {
 function landmarkToScreen(lm, idx) {
   if (!lm || !lm[idx]) return null;
   const p = lm[idx];
-  // 1 meter = 1000 pixels. A 2m person fits perfectly into the 2160 height screen.
-  const PIXELS_PER_METER = 1000;
+  const PIXELS_PER_METER = isMobile ? 500 : 1000;
   const screenX = GAME_WIDTH / 2 + p.x * PIXELS_PER_METER;
   const screenY = GAME_HEIGHT + p.y * PIXELS_PER_METER; // y is negative up
   return { x: screenX, y: screenY };
@@ -122,7 +133,18 @@ class GameScene extends Phaser.Scene {
 
     // Avatar Particles Setup
     this.avatarParticles = [];
-    const bodyParts = [
+    const bodyParts = isMobile ? [
+      { type: 'quad', nodes: [11, 12, 24, 23], count: 25 },
+      { type: 'circle', center: 0, radiusNode: 8, count: 15 },
+      { type: 'bone', nodes: [11, 13], count: 5, width: 25 },
+      { type: 'bone', nodes: [13, 15], count: 4, width: 20 },
+      { type: 'bone', nodes: [12, 14], count: 5, width: 25 },
+      { type: 'bone', nodes: [14, 16], count: 4, width: 20 },
+      { type: 'bone', nodes: [23, 25], count: 8, width: 35 },
+      { type: 'bone', nodes: [25, 27], count: 6, width: 25 },
+      { type: 'bone', nodes: [24, 26], count: 8, width: 35 },
+      { type: 'bone', nodes: [26, 28], count: 6, width: 25 },
+    ] : [
       { type: 'quad', nodes: [11, 12, 24, 23], count: 45 },
       { type: 'circle', center: 0, radiusNode: 8, count: 25 },
       { type: 'bone', nodes: [11, 13], count: 8, width: 35 },
