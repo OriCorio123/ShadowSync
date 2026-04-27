@@ -1,0 +1,6 @@
++Changed the fruits scale and 2D body collision to 200%
++resized the humanoid to fit inside the Dojo (by scaling up the 2D view)
+
+-Can't reach the fruits that are spawning near the borders (need to set the spawn at the middle with 25% margin from both sides
+-Fruits are too big : the gravity is making the fruits slow(need to set the collision and scale to 100% or 150%)
+-The humanoid can be improved(by adding more particles to form as a human rather than a skeleton)

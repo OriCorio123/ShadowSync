@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShadowSync — VR Chat</title>
+  <meta name="description" content="ShadowSync VR Chat: A 3D multiplayer social space driven by full-body motion capture.">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Inter','Arial',sans-serif}
+    #renderCanvas{width:100vw;height:100vh;display:block;outline:none}
+    #back-btn{position:fixed;top:16px;left:16px;z-index:1000;font-size:14px;font-weight:700;color:#00ccff;background:rgba(0,30,60,0.7);border:1px solid rgba(0,200,255,0.3);padding:8px 20px;border-radius:8px;cursor:pointer;letter-spacing:2px;transition:all .2s;text-decoration:none}
+    #back-btn:hover{background:rgba(0,60,120,0.8);border-color:rgba(0,220,255,0.6);color:#fff}
+    #ui-panel{position:fixed;top:16px;right:16px;z-index:1000;display:flex;flex-direction:column;gap:10px;min-width:200px}
+    .ui-card{background:rgba(10,10,30,0.85);backdrop-filter:blur(12px);border:1px solid rgba(80,140,255,0.15);border-radius:12px;padding:14px 18px;color:#c8d4e8;font-size:13px}
+    .ui-card h3{font-size:12px;color:#5588aa;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+    .player-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+    .player-item{display:flex;align-items:center;gap:8px;font-size:13px}
+    .player-dot{width:8px;height:8px;border-radius:50%;background:#00ff88;flex-shrink:0}
+    .scene-btn{background:rgba(0,40,80,0.5);border:1px solid rgba(0,200,255,0.2);color:#00ccff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;letter-spacing:1px;transition:all .2s;width:100%;text-align:left;margin-top:4px}
+    .scene-btn:hover{background:rgba(0,80,160,0.5);border-color:rgba(0,220,255,0.5);color:#fff}
+    .scene-btn.active{background:rgba(0,100,200,0.4);border-color:#00ccff;color:#fff}
+    #webcam-mini{position:fixed;bottom:16px;right:16px;width:160px;height:120px;border-radius:10px;border:1px solid rgba(80,140,255,0.15);z-index:1000;transform:scaleX(-1);object-fit:cover;opacity:0.6;transition:opacity .3s}
+    #webcam-mini:hover{opacity:1}
+  </style>
+</head>
+<body>
+  <a id="back-btn" href="/">← HUB</a>
+  <canvas id="renderCanvas"></canvas>
+
+  <div id="ui-panel">
+    <div class="ui-card">
+      <h3>Players Online</h3>
+      <ul id="player-list" class="player-list">
+        <li class="player-item"><span class="player-dot"></span>Connecting...</li>
+      </ul>
+    </div>
+    <div class="ui-card">
+      <h3>Scene</h3>
+      <button class="scene-btn active" data-scene="classroom">🏫 Classroom</button>
+      <button class="scene-btn" data-scene="winter">❄️ Winter</button>
+    </div>
+  </div>
+
+  <video id="webcam-mini" autoplay playsinline muted></video>
+
+  <!-- Babylon.js CDN with local fallback -->
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script>if(typeof BABYLON==='undefined'){document.write('<scr'+'ipt src="/tools/babylon/babylon.js"><\/scr'+'ipt>')}</script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script>if(typeof BABYLON==='undefined'||!BABYLON.SceneLoader){document.write('<scr'+'ipt src="/tools/babylon/babylonjs.loaders.min.js"><\/scr'+'ipt>')}</script>
+  <!-- Socket.io from main server -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Game logic -->
+  <script src="game.js"></script>
+</body>
+</html>

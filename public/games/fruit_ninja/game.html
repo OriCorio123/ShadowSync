@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShadowSync — Fruit Ninja</title>
+  <meta name="description" content="ShadowSync Fruit Ninja: Slice fruit with your full body using motion capture tracking.">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Arial Black',Arial,sans-serif}
+    #game-container{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+    #game-container canvas{display:block}
+    #webcam-preview{position:fixed;bottom:16px;right:16px;width:180px;height:135px;border-radius:12px;border:2px solid rgba(0,200,255,0.3);z-index:1000;transform:scaleX(-1);object-fit:cover;opacity:0.7;box-shadow:0 0 15px rgba(0,180,255,0.15);transition:opacity .3s}
+    #webcam-preview:hover{opacity:1}
+    #back-btn{position:fixed;top:16px;left:16px;z-index:1000;font-family:'Arial Black',Arial,sans-serif;font-size:14px;color:#00ccff;background:rgba(0,30,60,0.7);border:1px solid rgba(0,200,255,0.3);padding:8px 20px;border-radius:8px;cursor:pointer;letter-spacing:2px;transition:all .2s;text-decoration:none}
+    #back-btn:hover{background:rgba(0,60,120,0.8);border-color:rgba(0,220,255,0.6);color:#fff}
+  </style>
+</head>
+<body>
+  <a id="back-btn" href="/">← HUB</a>
+  <div id="game-container"></div>
+  <video id="webcam-preview" autoplay playsinline muted></video>
+
+  <!-- Phaser.js CDN with local fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+  <script>if(typeof Phaser==='undefined'){document.write('<scr'+'ipt src="/tools/phaser/phaser.min.js"><\/scr'+'ipt>')}</script>
+  <!-- Socket.io client from main server -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Game logic -->
+  <script src="game.js"></script>
+</body>
+</html>
