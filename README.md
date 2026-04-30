@@ -1,7 +1,7 @@
-Steps to play:
-download .zip
-extract files
-open terminal and run:
-  npm i
+Steps to play:<br>
+download .zip<br>
+extract files<br>
+open terminal and run:<br>
+  npm i<br>
   npm run dev
   
