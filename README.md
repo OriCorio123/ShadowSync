@@ -22,8 +22,9 @@ Follow these steps to download ShadowSync, run it on your machine, and start pla
 
 **Step 1: Download the Repository**
 Open your terminal and clone the repository using Git:
+
 ```bash
-git clone [https://github.com/OriCorio123/ShadowSync.git](https://github.com/OriCorio123/ShadowSync.git)
+git clone https://github.com/OriCorio123/ShadowSync.git
 ```
 *(Alternatively, you can go to the GitHub page, click the green "Code" button, select **Download ZIP**, and extract the files to a folder on your computer).*
 
