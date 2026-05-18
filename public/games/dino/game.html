@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Runner - ShadowSync</title>
+    <meta name="description" content="A Chrome Dino-style endless runner game with motion control support via ShadowSync.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-wrapper">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- HUD Overlay -->
+        <div id="hud">
+            <div id="score-display">
+                <span id="coin-counter" style="color: #f7c948; margin-right: 20px;">🪙 0</span>
+                <span id="hi-label">HI</span>
+                <span id="hi-score">00000</span>
+                <span id="current-score">00000</span>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen">
+            <div id="start-content">
+                <div id="dino-icon">🦖</div>
+                <h1 id="game-title">DINO RUNNER</h1>
+                <p id="start-hint">Press <kbd>SPACE</kbd> or <kbd>↑</kbd> to Start</p>
+                <p id="start-hint-mobile">Tap to Start</p>
+                <div id="shadowsync-badge">
+                    <span class="badge-dot"></span> ShadowSync Motion Ready
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Overlay -->
+        <div id="game-over-screen" style="display: none;">
+            <div id="game-over-content">
+                <h1 id="game-over-title">GAME OVER</h1>
+                <div id="game-over-scores">
+                    <p>Score: <span id="final-score">0</span></p>
+                    <p>Best: <span id="best-score">0</span></p>
+                </div>
+                <button id="restart-btn">↻ PLAY AGAIN</button>
+                <p id="restart-hint">or press SPACE</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io for ShadowSync -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Main game logic -->
+    <script src="game.js"></script>
+</body>
+</html>
